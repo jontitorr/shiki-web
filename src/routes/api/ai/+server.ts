@@ -13,28 +13,33 @@ const characterIds = new Map([
 	['discord mod', '8_1NyR8w1dOXmI1uWaieQcd147hecbdIK7CeEAIrdJw'],
 	['makima', 'eGPYvuu9WnIzP4gHbkgwe3cTtqwfnLi5QUNip_q8Le4']
 ]);
+let authenticated = false;
+
+try {
+	await characterAI.authenticateWithToken(CHARACTER_AI_TOKEN);
+	authenticated = true;
+} catch (error) {
+	console.error(error);
+}
 
 export async function POST({ request }) {
 	try {
-		await characterAI.authenticateWithToken(CHARACTER_AI_TOKEN);
-	} catch (error) {
-		console.error(error);
-	}
-
-	try {
 		let { character, query } = await request.json();
+		character = character.trim().toLowerCase();
 
-		console.log({ character, query });
+		console.log({ authenticated, character, query });
+
+		if (!authenticated && character !== 'bing') {
+			return json({ error: 'Something went wrong. Please try again.' });
+		}
 
 		if (!character || typeof character !== 'string' || !character.trim()) {
 			return json({ error: 'No character provided' });
 		}
 
-		character = character.trim().toLowerCase();
-
 		const characterId = characterIds.get(character);
 
-		if (!characterId) {
+		if (characterId === undefined) {
 			return json({ error: 'Character not found' });
 		}
 
@@ -59,22 +64,27 @@ async function callBing(query: string) {
 	const url = new URL('https://api.freegpt4.ddns.net');
 	url.searchParams.append('text', query);
 
-	const res = await fetch(url);
-	const body = await res.text();
+	try {
+		const res = await fetch(url);
+		const body = await res.text();
 
-	if (!res.ok || !body) {
-		return json({ error: 'No response from server' });
-	}
-
-	console.log({ body });
-
-	for (const intro of bingIntros) {
-		if (body.startsWith(intro)) {
-			return json({ response: body.replace(intro, '') });
+		if (!res.ok || !body) {
+			return json({ error: 'No response from server' });
 		}
-	}
 
-	return json({ text: body });
+		console.log({ body });
+
+		for (const intro of bingIntros) {
+			if (body.startsWith(intro)) {
+				return json({ response: body.replace(intro, '') });
+			}
+		}
+
+		return json({ text: body });
+	} catch (error) {
+		console.log({ error });
+		return json({ error: 'Server error' });
+	}
 }
 
 async function callCharacter(characterId: string, query: string) {
