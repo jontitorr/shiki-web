@@ -7,3 +7,6 @@ export const messageStore = writable<Record<string, Message[]>>({});
 
 // UI Resources
 export const currentSidebarItem = writable<SidebarItem | null>(null);
+
+export type FilePreview = { name: string; url: string; isMedia: boolean };
+export const filePreviewStore = writable<Record<string, FilePreview[]>>({});

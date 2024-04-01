@@ -5,7 +5,12 @@
 	import Sidebar from '$lib/components/sidebar.svelte';
 	import { GatewayClient } from '$lib/gateway';
 	import { fetchChannels, fetchMessages } from '$lib/gateway/api';
-	import { channelStore, currentSidebarItem, messageStore } from '$lib/gateway/stores';
+	import {
+		channelStore,
+		currentSidebarItem,
+		filePreviewStore,
+		messageStore
+	} from '$lib/gateway/stores';
 	import { cn } from '$lib/utils';
 	import { HashIcon } from 'lucide-svelte';
 	import { onMount } from 'svelte';
@@ -50,6 +55,7 @@
 				icon: HashIcon
 			});
 
+			$filePreviewStore[item.id.toString()] = [];
 			fetchMessages(item.id, $token, (channelId) => {
 				return Object.keys($messageStore).includes(channelId.toString());
 			});
@@ -84,6 +90,9 @@
 		}
 
 		currentSidebarItem.set(item);
+		if (!$filePreviewStore[item.id.toString()]) {
+			$filePreviewStore[item.id.toString()] = [];
+		}
 		// TODO: Prevent unnecessary fetches
 		await fetchMessages(item.id, $token, (channelId) => {
 			return Object.keys($messageStore).includes(channelId.toString());

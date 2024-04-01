@@ -1,5 +1,10 @@
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
-import { channelStore, messageStore } from '$lib/gateway/stores';
+import {
+	channelStore,
+	filePreviewStore,
+	messageStore,
+	type FilePreview
+} from '$lib/gateway/stores';
 import JSONbig from 'json-bigint';
 import {
 	deserializeChannel,
@@ -7,6 +12,16 @@ import {
 	type Channel,
 	type Message
 } from '../../types/sidebar';
+
+export const addFiles = async (channelId: bigint, files: FilePreview[]) => {
+	filePreviewStore.update((store) => {
+		store[channelId.toString()]
+			.filter((x) => !files.includes(x))
+			.forEach((x) => URL.revokeObjectURL(x.url));
+		store[channelId.toString()] = files;
+		return store;
+	});
+};
 
 export const createChannel = async (token: string, name: string): Promise<Channel | null> => {
 	try {

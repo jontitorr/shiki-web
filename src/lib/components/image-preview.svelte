@@ -1,23 +1,10 @@
 <script lang="ts">
-	export let files: FileList | null;
-	let previews: { name: string; url: string; isMedia: boolean }[] = [];
+	import type { FilePreview } from '$lib/gateway/stores';
 
-	$: {
-		if (files && files.length > 0) {
-			previews.forEach((preview) => URL.revokeObjectURL(preview.url));
-			previews = Array.from(files).map((file) => {
-				return {
-					name: file.name,
-					url: URL.createObjectURL(file),
-					isMedia: file['type'].split('/')[0] === 'image'
-				};
-			});
-		}
-	}
+	export let previews: FilePreview[];
 </script>
 
 {#if previews.length > 0}
-	<div />
 	<div
 		class="flex justify-start items-center w-full bg-gray-200 dark:bg-zinc-900 p-4 gap-4 overflow-x-auto whitespace-nowrap scroll-smooth scrollable-section rounded-tl-sm rounded-tr-sm"
 	>

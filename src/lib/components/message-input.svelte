@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { FilePreview } from '$lib/gateway/stores';
 	import { cn } from '$lib/utils';
 	import { Plus } from 'lucide-svelte';
 	import ImagePreview from './image-preview.svelte';
@@ -6,11 +7,25 @@
 
 	export let onSubmit: (text: string) => void;
 	export let placeholder: string;
+	export let files: FilePreview[];
+	export let onAddFiles: (files: FilePreview[]) => void;
 
-	let files: FileList | null;
 	let inputText = '';
 	let textareaRows = 1;
 	let previewEnabled = false;
+
+	function onFilesChanged(e: Event) {
+		const target = e.target as HTMLInputElement;
+		onAddFiles(
+			Array.from(target.files ?? []).map((file) => {
+				return {
+					name: file.name,
+					url: URL.createObjectURL(file),
+					isMedia: file['type'].split('/')[0] === 'image'
+				};
+			})
+		);
+	}
 
 	$: {
 		previewEnabled = (files?.length ?? 0) > 0;
@@ -19,7 +34,7 @@
 </script>
 
 <div class="flex flex-col w-full">
-	<ImagePreview {files} />
+	<ImagePreview previews={files} />
 	<div
 		class={cn(
 			'flex flex-row',
@@ -39,7 +54,7 @@
 					<Plus color="black" class="w-5 h-5" />
 				</div>
 			</Label>
-			<input bind:files multiple id="files" type="file" class="hidden" />
+			<input multiple id="files" type="file" class="hidden" on:change={onFilesChanged} />
 		</div>
 		<textarea
 			class={cn(

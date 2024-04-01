@@ -3,11 +3,18 @@
 	import { page } from '$app/stores';
 	import { token } from '$lib/auth';
 	import MainContent from '$lib/components/main-content.svelte';
-	import { sendMessage } from '$lib/gateway/api';
-	import { channelStore, currentSidebarItem, messageStore } from '$lib/gateway/stores';
+	import { addFiles, sendMessage } from '$lib/gateway/api';
+	import {
+		channelStore,
+		currentSidebarItem,
+		filePreviewStore,
+		messageStore,
+		type FilePreview
+	} from '$lib/gateway/stores';
 	import { HashIcon } from 'lucide-svelte';
 	import type { Message } from '../../../../types/sidebar';
 
+	let files: FilePreview[] = [];
 	let messages: Message[] = [];
 
 	$: {
@@ -20,6 +27,7 @@
 				name: channel.name,
 				icon: HashIcon
 			});
+			files = $filePreviewStore[channel.id.toString()];
 			messages = $messageStore[channel.id.toString()] ?? [];
 		} else {
 			console.log('redirecting');
@@ -44,6 +52,14 @@
 		return ret;
 	}
 
+	async function onAddFiles(files: FilePreview[]) {
+		if (!$token || !$currentSidebarItem) {
+			return goto('/login');
+		}
+
+		await addFiles($currentSidebarItem.id, files);
+	}
+
 	async function onSendMessage(message: string) {
 		if (!$token || !$currentSidebarItem) {
 			return goto('/login');
@@ -56,8 +72,10 @@
 {#if $currentSidebarItem}
 	<MainContent
 		item={$currentSidebarItem}
+		{files}
 		{messages}
 		compactList={getCompactList(messages)}
+		{onAddFiles}
 		{onSendMessage}
 	/>
 {/if}

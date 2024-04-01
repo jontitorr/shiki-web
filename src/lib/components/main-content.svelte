@@ -1,12 +1,15 @@
 <script lang="ts">
+	import type { FilePreview } from '$lib/gateway/stores';
 	import { isUrl } from '$lib/utils';
 	import type { Message, SidebarItem } from '../../types/sidebar';
 	import MessageInput from './message-input.svelte';
 	import MessageItem from './message-item.svelte';
 
 	export let item: SidebarItem;
+	export let files: FilePreview[];
 	export let messages: Message[];
 	export let compactList: boolean[];
+	export let onAddFiles: (files: FilePreview[]) => void;
 	export let onSendMessage: (text: string) => void;
 
 	let messageList: HTMLElement;
@@ -38,7 +41,7 @@
 		</ul>
 	</section>
 	<section class="p-4 w-full">
-		<MessageInput {onSubmit} placeholder={`Message #${item.name}`} />
+		<MessageInput {onSubmit} placeholder={`Message #${item.name}`} {files} {onAddFiles} />
 	</section>
 </div>
 
