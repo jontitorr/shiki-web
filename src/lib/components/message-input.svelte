@@ -5,7 +5,7 @@
 	import ImagePreview from './image-preview.svelte';
 	import { Label } from './ui/label';
 
-	export let onSubmit: (text: string) => void;
+	export let onSubmit: (text: string, files: FilePreview[]) => void;
 	export let placeholder: string;
 	export let files: FilePreview[];
 	export let onAddFiles: (files: FilePreview[]) => void;
@@ -21,7 +21,8 @@
 				return {
 					name: file.name,
 					url: URL.createObjectURL(file),
-					isMedia: file['type'].split('/')[0] === 'image'
+					isMedia: file['type'].split('/')[0] === 'image',
+					file: file
 				};
 			})
 		);
@@ -72,19 +73,20 @@
 						return;
 					}
 
-					if (!text) {
+					if (!text && files.length == 0) {
 						e.preventDefault();
 						return;
 					}
 				}
 
-				if (e.key !== 'Enter' || e.shiftKey || !text) {
+				if (e.key !== 'Enter' || e.shiftKey || (!text && files.length == 0)) {
 					return;
 				}
 
 				e.preventDefault();
-				onSubmit(text);
+				onSubmit(text, files);
 				inputText = '';
+				onAddFiles([]);
 			}}
 		/>
 	</div>

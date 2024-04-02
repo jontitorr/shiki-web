@@ -10,7 +10,7 @@
 	export let messages: Message[];
 	export let compactList: boolean[];
 	export let onAddFiles: (files: FilePreview[]) => void;
-	export let onSendMessage: (text: string) => void;
+	export let onSendMessage: (text: string, files: FilePreview[]) => void;
 
 	let messageList: HTMLElement;
 
@@ -18,8 +18,8 @@
 		node.scroll({ top: node.scrollHeight, behavior: 'instant' });
 	};
 
-	const onSubmit = (text: string) => {
-		onSendMessage(text);
+	const onSubmit = (text: string, files: FilePreview[]) => {
+		onSendMessage(text, files);
 		scrollToBottom(messageList);
 	};
 </script>

@@ -29,6 +29,16 @@ export const deserializeChannel = (data: any): Channel => {
 	};
 };
 
+type Attachment = {
+	id: bigint;
+	filename: string;
+	size: number;
+	url: string;
+	width: number;
+	height: number;
+	contentType: string;
+};
+
 export type Message = {
 	id: bigint;
 	channelId: bigint;
@@ -39,6 +49,7 @@ export type Message = {
 		avatar?: string;
 		username: string;
 	};
+	attachments?: Attachment[];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -55,6 +66,16 @@ export const deserializeMessage = (data: any): Message => {
 			id: BigInt(data.author.id),
 			avatar: data.author.avatar,
 			username: data.author.username
-		}
+		},
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		attachments: data.attachments?.map((attachment: any) => ({
+			id: BigInt(attachment.id),
+			filename: attachment.filename,
+			size: attachment.size,
+			url: attachment.url,
+			width: attachment.width,
+			height: attachment.height,
+			contentType: attachment.content_type
+		}))
 	};
 };

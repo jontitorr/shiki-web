@@ -49,5 +49,18 @@
 				{/if}
 			</div>
 		{/if}
+		{#if message.attachments && message.attachments.length > 0}
+			<div class="grid grid-cols-3 gap-2 mt-2">
+				{#each message.attachments as attachment}
+					<a href={attachment.url} target="_blank">
+						<img
+							class="w-full h-full object-cover"
+							src={attachment.url}
+							alt={attachment.filename}
+						/>
+					</a>
+				{/each}
+			</div>
+		{/if}
 	</div>
 </div>

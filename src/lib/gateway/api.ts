@@ -122,15 +122,61 @@ export const fetchMessages = async (
 	}
 };
 
-export const sendMessage = async (channelId: bigint, content: string, token: string) => {
+export const sendMessage = async (
+	channelId: bigint,
+	content: string,
+	files: FilePreview[],
+	token: string
+) => {
+	const fileUploadPromises = files.map(async (file) => {
+		try {
+			const formData = new FormData();
+			formData.append('file', file.file);
+
+			const res = await fetch(`${PUBLIC_BACKEND_URL}/api/channels/${channelId}/attachments`, {
+				method: 'POST',
+				headers: {
+					Authorization: `Bearer ${token}`
+				},
+				body: formData
+			});
+
+			const json = JSONbig.parse(await res.text());
+			return BigInt(json.id);
+		} catch (error) {
+			console.error(`Could not upload ${file.name}: ${error}`);
+			return null;
+		}
+	});
+
+	const uploadedAttachmentIds = await Promise.all(fileUploadPromises);
+	const attachments = uploadedAttachmentIds.filter((id) => id !== null);
+
+	let message: {
+		attachments?: bigint[];
+		content: string;
+	} = {
+		content
+	};
+
+	if (attachments.length > 0) {
+		message = {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			attachments,
+			content
+		};
+	}
+
 	try {
+		// TODO: We could do some pre-upload process for files instead of executing them one by one.
 		await fetch(`${PUBLIC_BACKEND_URL}/api/channels/${channelId}/messages`, {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${token}`,
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ content })
+			body: JSONbig.stringify(message)
 		});
 	} catch (error) {
 		console.error(`Could not send message: ${error}`);

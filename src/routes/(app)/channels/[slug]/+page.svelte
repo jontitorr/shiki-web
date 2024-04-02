@@ -60,12 +60,12 @@
 		await addFiles($currentSidebarItem.id, files);
 	}
 
-	async function onSendMessage(message: string) {
+	async function onSendMessage(message: string, files: FilePreview[]) {
 		if (!$token || !$currentSidebarItem) {
 			return goto('/login');
 		}
 
-		await sendMessage($currentSidebarItem.id, message, $token);
+		await sendMessage($currentSidebarItem.id, message, files, $token);
 	}
 </script>
 
