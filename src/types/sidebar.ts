@@ -29,7 +29,7 @@ export const deserializeChannel = (data: any): Channel => {
 	};
 };
 
-type Attachment = {
+export type Attachment = {
 	id: bigint;
 	filename: string;
 	size: number;
