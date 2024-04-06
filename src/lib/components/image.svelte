@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { writable } from 'svelte/store';
 	import { Button } from './ui/button';
 	import * as Dialog from './ui/dialog';
 
@@ -10,7 +9,7 @@
 
 	let hovering = false;
 	let canvas: HTMLCanvasElement;
-	let staticSrc = writable('');
+	let staticSrc = '';
 
 	function openInBrowser(url: string) {
 		window.open(url, '_blank')?.focus();
@@ -25,7 +24,7 @@
 			canvas.height = image.height;
 			const ctx = canvas.getContext('2d');
 			ctx?.drawImage(image, 0, 0);
-			staticSrc.set(canvas.toDataURL('image/png'));
+			staticSrc = canvas.toDataURL('image/png');
 		};
 	}
 
@@ -42,7 +41,7 @@
 			on:mouseenter={() => (hovering = true)}
 			on:mouseleave={() => (hovering = false)}
 		>
-			<img src={hovering ? src : $staticSrc} {alt} class={imgClass} />
+			<img src={hovering ? src : staticSrc} {alt} class={imgClass} />
 		</div>
 	</Dialog.Trigger>
 	<Dialog.Content class="sm:max-w-md p-4 rounded-lg shadow-lg">
