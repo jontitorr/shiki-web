@@ -24,14 +24,14 @@
 	};
 </script>
 
-<div class="flex flex-col overflow-hidden flex-grow h-[100vh]">
+<div class="flex flex-col overflow-hidden flex-grow" style="max-height: calc(100vh - 4px)">
 	<section class="flex flex-col justify-center min-h-[48px] p-2">
 		<div class="flex flex-row gap-2">
 			<svelte:component this={item.icon} />
 			{item.name}
 		</div>
 	</section>
-	<section class="overflow-y-auto scrollable-section" bind:this={messageList}>
+	<section class="overflow-y-auto scrollable-section flex-auto" bind:this={messageList}>
 		<ul class="p-2">
 			{#each messages as message, i}
 				<li class="text-sm text-gray-600 dark:text-zinc-300">

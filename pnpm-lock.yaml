@@ -26,6 +26,9 @@ dependencies:
   node_characterai:
     specifier: ^1.2.1
     version: 1.2.1(typescript@5.2.2)
+  paneforge:
+    specifier: ^0.0.3
+    version: 0.0.3(svelte@4.2.1)
   radix-icons-svelte:
     specifier: ^1.2.1
     version: 1.2.1
@@ -38,6 +41,9 @@ dependencies:
   svelte-markdown:
     specifier: ^0.4.0
     version: 0.4.0(svelte@4.2.1)
+  svelte-radix:
+    specifier: ^1.1.0
+    version: 1.1.0(svelte@4.2.1)
   svelte-routing:
     specifier: ^2.6.0
     version: 2.6.0
@@ -2568,6 +2574,12 @@ packages:
     hasBin: true
     dev: false
 
+  /nanoid@5.0.7:
+    resolution: {integrity: sha512-oLxFY2gd2IqnjcYyOXD8XGCftpGtZP2AbHbOkthDkvRywH5ayNtPVy9YlOPcHckXzbLTCHpkb7FB+yuxKV13pQ==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
+    dev: false
+
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
@@ -2704,6 +2716,15 @@ packages:
 
   /pako@1.0.11:
     resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
+    dev: false
+
+  /paneforge@0.0.3(svelte@4.2.1):
+    resolution: {integrity: sha512-mJ2BYun2GLJZR3s19OjGqlv73NSVLfc4t85EB+F5FiMOOrOOem+x/H+j05zYvUwA2lUbRRwbfK9CectLKnhgOg==}
+    peerDependencies:
+      svelte: ^4.0.0
+    dependencies:
+      nanoid: 5.0.7
+      svelte: 4.2.1
     dev: false
 
   /parent-module@1.0.1:
@@ -3504,6 +3525,14 @@ packages:
       svelte: 4.2.1
       typescript: 5.2.2
     dev: true
+
+  /svelte-radix@1.1.0(svelte@4.2.1):
+    resolution: {integrity: sha512-kyE9wZiJV937INGb+wiBkAjmGtQUUYRPkVL2Q+/gj+9Vog1Ewd2wNvNmpNMUd+c+euxoc5u5YZMuCUgky9EUPw==}
+    peerDependencies:
+      svelte: ^3.54.0 || ^4.0.0 || ^5.0.0
+    dependencies:
+      svelte: 4.2.1
+    dev: false
 
   /svelte-routing@2.6.0:
     resolution: {integrity: sha512-j25QWdWUzVMDCclxT2mIy7Xto/s2qcC9zpxCZzGE5WS42xo+xT9QQOtNFEXVHqVHEkJjaCOdL7LvHb320FypKw==}

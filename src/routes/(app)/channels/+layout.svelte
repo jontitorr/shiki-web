@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import { token } from '$lib/auth';
 	import Sidebar from '$lib/components/sidebar.svelte';
+	import * as Resizable from '$lib/components/ui/resizable';
 	import { GatewayClient } from '$lib/gateway';
 	import { fetchChannels, fetchMessages } from '$lib/gateway/api';
 	import {
@@ -141,10 +142,23 @@
 			</div>
 		</div>
 	</nav>
-	<Sidebar items={sidebarItems} {onItemClick} selectedItem={$currentSidebarItem} />
-	{#if $currentSidebarItem}
-		<slot />
-	{/if}
+	<Resizable.PaneGroup
+		direction="horizontal"
+		class={cn('border', {
+			// 'max-w-[240px]': $currentSidebarItem === null
+		})}
+		style="min-height:inherit"
+	>
+		<Resizable.Pane minSize={20} defaultSize={20} class="flex">
+			<Sidebar items={sidebarItems} {onItemClick} selectedItem={$currentSidebarItem} />
+		</Resizable.Pane>
+		{#if $currentSidebarItem}
+			<Resizable.Handle />
+			<Resizable.Pane minSize={20} defaultSize={80} class="flex">
+				<slot />
+			</Resizable.Pane>
+		{/if}
+	</Resizable.PaneGroup>
 </div>
 
 <style>

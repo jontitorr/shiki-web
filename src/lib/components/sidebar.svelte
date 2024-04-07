@@ -30,7 +30,7 @@
 	}
 </script>
 
-<div class="w-[240px] flex flex-col bg-gray-300 dark:bg-zinc-800">
+<div class="flex flex-col bg-gray-300 dark:bg-zinc-800" style="min-width: -webkit-fill-available;">
 	<div
 		class="flex items-center h-[48px] px-[10px]"
 		style="box-shadow: 0 1px 0 hsl( 0 calc( 1 * 0%) 0.8% / 0.2), 0 1.5px 0 hsl( 240 calc( 1 * 7.7%) 2.5% / 0.05), 0 2px 0 hsl( 0 calc( 1 * 0%) 0.8% / 0.05);"
