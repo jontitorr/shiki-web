@@ -20,6 +20,7 @@
 		image.crossOrigin = 'anonymous';
 		image.src = src;
 		image.onload = () => {
+			if (!canvas) return;
 			canvas.width = image.width;
 			canvas.height = image.height;
 			const ctx = canvas.getContext('2d');
@@ -41,11 +42,11 @@
 			on:mouseenter={() => (hovering = true)}
 			on:mouseleave={() => (hovering = false)}
 		>
-			<img src={hovering ? src : staticSrc} {alt} class={imgClass} />
+			<img src={hovering ? src : staticSrc} {alt} class={imgClass} loading="lazy" />
 		</div>
 	</Dialog.Trigger>
 	<Dialog.Content class="sm:max-w-md p-4 rounded-lg shadow-lg">
-		<img {src} class="max-h-[80vh] max-w-full mx-auto block" {alt} />
+		<img {src} class="max-h-[80vh] max-w-full mx-auto block" {alt} loading="lazy" />
 		<Dialog.Footer class="flex justify-end space-x-4">
 			<Button on:click={() => openInBrowser(src)}>Open in Browser</Button>
 		</Dialog.Footer>
