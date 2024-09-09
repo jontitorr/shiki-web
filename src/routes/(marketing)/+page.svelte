@@ -1,10 +1,11 @@
 <script lang="ts">
-	import FulcrumGif from '$lib/assets/images/fulcrum.gif';
-	import KhaledGif from '$lib/assets/images/khaled.gif';
-	import SaulGif from '$lib/assets/images/saul.gif';
+	import discordHopInMp4 from '$lib/assets/videos/Discord_Website_Refresh_Hop-In-transcode.mp4';
+	import discordWebsiteSameRoomMp4 from '$lib/assets/videos/Discord_Website_Refresh_Same Room_EN-transcode.mp4';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { onMount } from 'svelte';
 	import { siteConfig } from '../../config/site';
+	const discordHopInWebm = discordHopInMp4.replace('mp4', 'webm');
+	const discordWebsiteSameRoomWebm = discordWebsiteSameRoomMp4.replace('mp4', 'webm');
 
 	let platformStr = '';
 	let isDesktop = true;
@@ -61,23 +62,26 @@
 		{/if}
 	</div>
 	<div class="flex flex-col items-center gap-8 md:flex-row md:justify-center">
-		<img
-			src={FulcrumGif}
-			alt="hero"
+		<!-- svelte-ignore a11y-media-has-caption -->
+		<video
 			width={500}
 			height={500}
 			class="max-h-[400px] rounded-2xl object-cover"
-			loading="lazy"
-		/>
+			autoplay
+			loop
+			playsinline
+			><source src={discordWebsiteSameRoomMp4} /><source src={discordWebsiteSameRoomWebm} /></video
+		>
 		<div
 			class="flex max-w-[500px] flex-col items-center justify-center space-y-4 text-center md:items-end md:text-right"
 		>
 			<h2 class="md:text2xl font-bold leading-[1.1] sm:text-xl">
-				Create an invite-only place where you belong
+				Stream like you re in the same room
 			</h2>
 			<p class="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-				Discord servers are organized into topic-based channels where you can collaborate, share,
-				and just talk about your day without clogging up a group chat.
+				High quality and low latency streaming makes it feel like you're hanging out on the couch
+				with friends while playing a game, watching shows, looking at photos, or idk doing homework
+				or something.
 			</p>
 		</div>
 	</div>
@@ -91,32 +95,14 @@
 				around and instantly pop in to talk without having to call.
 			</p>
 		</div>
-		<img
-			src={KhaledGif}
-			alt="hero"
+		<!-- svelte-ignore a11y-media-has-caption -->
+		<video
 			width={500}
 			height={500}
 			class="max-h-[400px] rounded-2xl object-cover"
-			loading="lazy"
-		/>
-	</div>
-	<div class="flex flex-col items-center gap-8 md:flex-row md:justify-center">
-		<img
-			src={SaulGif}
-			alt="hero"
-			width={500}
-			height={500}
-			class="max-h-[400px] rounded-2xl object-cover"
-			loading="lazy"
-		/>
-		<div
-			class="flex max-w-[500px] flex-col items-center justify-center space-y-4 text-center md:items-end md:text-right"
+			autoplay
+			loop
+			playsinline><source src={discordHopInMp4} /><source src={discordHopInWebm} /></video
 		>
-			<h2 class="md:text2xl font-bold leading-[1.1] sm:text-xl">From few to a fandom</h2>
-			<p class="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-				Get any community running with moderation tools and custom member access. Give members
-				special powers, set up private channels, and more.
-			</p>
-		</div>
 	</div>
 </section>
