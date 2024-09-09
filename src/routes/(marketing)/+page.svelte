@@ -1,9 +1,9 @@
 <script lang="ts">
-	import discordHopInMp4 from '$lib/assets/videos/Discord_Website_Refresh_Hop-In-transcode.mp4';
-	import discordWebsiteSameRoomMp4 from '$lib/assets/videos/Discord_Website_Refresh_Same Room_EN-transcode.mp4';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { onMount } from 'svelte';
 	import { siteConfig } from '../../config/site';
+	const discordHopInMp4 = '/videos/Discord_Website_Refresh_Hop-In-transcode.mp4';
+	const discordWebsiteSameRoomMp4 = '/videos/Discord_Website_Refresh_Same Room_EN-transcode.mp4';
 	const discordHopInWebm = discordHopInMp4.replace('mp4', 'webm');
 	const discordWebsiteSameRoomWebm = discordWebsiteSameRoomMp4.replace('mp4', 'webm');
 
