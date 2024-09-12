@@ -67,9 +67,10 @@
 			width={500}
 			height={500}
 			class="max-h-[400px] rounded-2xl object-cover"
-			autoplay
-			loop
 			playsinline
+			autoplay
+			muted
+			loop
 			><source src={discordWebsiteSameRoomMp4} /><source src={discordWebsiteSameRoomWebm} /></video
 		>
 		<div
@@ -100,9 +101,10 @@
 			width={500}
 			height={500}
 			class="max-h-[400px] rounded-2xl object-cover"
+			playsinline
 			autoplay
-			loop
-			playsinline><source src={discordHopInMp4} /><source src={discordHopInWebm} /></video
+			muted
+			loop><source src={discordHopInMp4} /><source src={discordHopInWebm} /></video
 		>
 	</div>
 </section>
